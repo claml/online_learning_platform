@@ -2,6 +2,11 @@ package com.example.onlinelearningplatform.controller;
 
 import com.example.onlinelearningplatform.dto.AuthRequest;
 import com.example.onlinelearningplatform.dto.AuthResponse;
+import com.example.onlinelearningplatform.dto.MessageResponse;
+import com.example.onlinelearningplatform.dto.RegisterRequest;
+import com.example.onlinelearningplatform.service.AuthService;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import com.example.onlinelearningplatform.dto.RegisterRequest;
 import com.example.onlinelearningplatform.model.Role;
 import com.example.onlinelearningplatform.model.User;
@@ -19,6 +24,15 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 public class AuthController {
 
+    private final AuthService authService;
+
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<MessageResponse> register(@RequestBody @Valid RegisterRequest request) {
+        return ResponseEntity.ok(authService.register(request));
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -49,6 +63,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody @Valid AuthRequest request) {
+        return ResponseEntity.ok(authService.login(request));
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.username(), request.password()));
         var user = userRepository.findByUsername(request.username()).orElseThrow();
         return ResponseEntity.ok(new AuthResponse(jwtService.generateToken(user), user.getRole().name()));
