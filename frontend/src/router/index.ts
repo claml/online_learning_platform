@@ -43,4 +43,15 @@ router.beforeEach((to, _from, next) => {
   next()
 })
 
+    { path: '/courses', component: CourseList },
+    { path: '/courses/:id', component: CourseDetail, props: true },
+    { path: '/learn/:id', component: Learning, props: true },
+    { path: '/problems', component: ProblemList },
+    { path: '/problems/:id', component: ProblemDetail, props: true },
+    { path: '/community', component: Community },
+    { path: '/dashboard', component: Dashboard },
+    { path: '/admin', component: Admin }
+  ]
+})
+
 export default router
