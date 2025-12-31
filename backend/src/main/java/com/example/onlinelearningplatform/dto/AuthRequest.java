@@ -1,6 +1,9 @@
 package com.example.onlinelearningplatform.dto;
 
-import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 
-public record AuthRequest(@NotBlank String username, @NotBlank String password) {
+@Data
+public class AuthRequest {
+    private String username;
+    private String password;
 }

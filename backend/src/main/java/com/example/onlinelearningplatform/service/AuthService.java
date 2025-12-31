@@ -37,12 +37,12 @@ public class AuthService {
     }
 
     public MessageResponse register(RegisterRequest request) {
-        userRepository.findByUsername(request.username()).ifPresent(user -> {
+        userRepository.findByUsername(request.getUsername()).ifPresent(user -> {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "用户名已存在");
         });
         User user = User.builder()
-                .username(request.username())
-                .password(passwordEncoder.encode(request.password()))
+                .username(request.getUsername())
+                .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.STUDENT)
                 .build();
         userRepository.save(user);
@@ -50,8 +50,8 @@ public class AuthService {
     }
 
     public AuthResponse login(AuthRequest request) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.username(), request.password()));
-        User user = userRepository.findByUsername(request.username())
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+        User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "用户名或密码错误"));
         String token = jwtService.generateToken(user);
         return new AuthResponse(token, user.getUsername(), user.getRole().name());

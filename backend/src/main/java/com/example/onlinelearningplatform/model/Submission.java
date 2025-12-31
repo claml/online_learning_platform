@@ -27,12 +27,20 @@ public class Submission {
     private Problem problem;
 
     private String language;
-    @Column(length = 8000)
+
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
     private String code;
-    @Column(length = 4000)
+
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
     private String stdout;
-    @Column(length = 4000)
+
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
     private String stderr;
+
     private String status;
+
     private LocalDateTime createdAt;
 }

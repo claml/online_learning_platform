@@ -1,10 +1,11 @@
 package com.example.onlinelearningplatform.dto;
 
-import jakarta.validation.constraints.NotBlank;
-
-public record RegisterRequest(@NotBlank String username, @NotBlank String password) {
 import com.example.onlinelearningplatform.model.Role;
-import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 
-public record RegisterRequest(@NotBlank String username, @NotBlank String password, Role role) {
+@Data
+public class RegisterRequest {
+    private String username;
+    private String password;
+    private Role role;
 }
